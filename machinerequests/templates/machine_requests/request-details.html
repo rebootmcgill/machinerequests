@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %} - Request #{{ request.id }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+	<h1>{{ request }}<small> Request #{{ request.id }}</small></h1>
+</div>
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<dl>
+			<dt>Requester</dt>
+			<dd>{{ request.given_name }} {{ request.family_name }}</dd>
+			<dt>Type</dt>
+			<dd>{{ request.requester_type }}</dd>
+			<dt>Faculty &amp; Department</dt>
+			<dd>{{ request.faculty_and_dept }}</dd>
+			<dt>Organisation</dt>
+			<dd>{{ request.organization }}</dd>
+			<dt>Requested Preset</dt>
+			<dd>{{ request.preset }}</dd>
+			<dt>Operating System</dt>
+			<dd>{{ request.os }}</dd>
+			<dt>Machine Use</dt>
+			<dd>{{ request.machine_use }}</dd>
+			<dt>Accessory Matrix</dt>
+			<dd>
+				<table>
+					<tr>
+						<th>Display></th>
+						<td>{% if request.need_display %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
+					</tr>
+					<tr>
+						<th>Mouse</th>
+						<td>{% if request.need_mouse %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
+					</tr>
+					<tr>
+						<th>Keyboard</th>
+						<td>{% if request.need_keyboard %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
+					</tr>
+					<tr>
+						<th>Ethernet Cable</th>
+						<td>{% if request.need_ethernet %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
+					</tr>
+				</table>
+			</dd>
+			<dt>Extra Info and Remarks</dt>
+			<dd>{{ request.extra_information }}</dd>
+			<dt>Amount</dt>
+			<dd>{{ request.amount }}</dd>
+			<dt>Machine Provided</dt>
+			<dd>{% if request.forfilled %}<ul>{% for machine in request.get_machines %}<li><a href="{{ machine.get_absolute_url }}">View</a>{% endfor %}</ul>{% else %}<a href="{{ request.get_forfill_url }}">Unforfilled. Forfill Now!</a></dd>
+		</dl>
+	</div>
+</div>
+{% endblock %}
+

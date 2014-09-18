@@ -57,3 +57,7 @@ target/
 
 #Virtual Environment
 venv
+
+#Testing Environment
+*.sqlite3
+reboot
