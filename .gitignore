@@ -61,3 +61,4 @@ venv
 #Testing Environment
 *.sqlite3
 reboot
+manage.py
