@@ -26,16 +26,13 @@ class ArchivedRequestsList(ListView):
 class RequestView(DetailView):
     model = Request
     context_object_name = 'request'
-
-class RequestCreate(CreateView):
-    model = Request
-    fields = ['given_name', 'family_name', 'email', 'requester_type', 'faculty_and_dept', 'organization', 'preset', 'os', 'machine_use', 'need_display', 'need_mouse', 'need_keyboard', 'need_ethernet', 'extra_information', 'amount']
+    template_name = 'machine_requests/request_view.html'
 
 @login_required
 class MachineCreate(CreateView):
     model = Machine
     fields = ['cpu', 'ram', 'hdd', 'notes']
-
+    template_name = 'machine_requests/machine_create.html'
     def form_valid(self, form):
         form.instance.forfiller = self.request.user
         return super(MachineCreate, self).form_valid(form)
@@ -43,3 +40,4 @@ class MachineCreate(CreateView):
 class MachineView(DetailView):
     model = Machine
     context_object_name = 'machine'
+    template_name = 'machine_requests/machine_view.html'

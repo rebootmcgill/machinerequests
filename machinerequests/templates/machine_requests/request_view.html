@@ -24,9 +24,9 @@
 			<dd>{{ request.machine_use }}</dd>
 			<dt>Accessory Matrix</dt>
 			<dd>
-				<table>
+				<table class="indent">
 					<tr>
-						<th>Display></th>
+						<th>Display</th>
 						<td>{% if request.need_display %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
 					</tr>
 					<tr>
@@ -48,7 +48,7 @@
 			<dt>Amount</dt>
 			<dd>{{ request.amount }}</dd>
 			<dt>Machine Provided</dt>
-			<dd>{% if request.forfilled %}<ul>{% for machine in request.get_machines %}<li><a href="{{ machine.get_absolute_url }}">View</a>{% endfor %}</ul>{% else %}<a href="{{ request.get_forfill_url }}">Unforfilled. Forfill Now!</a></dd>
+			<dd>{% if request.forfilled %}<ul>{% for machine in request.get_machines %}<li><a href="{{ machine.get_absolute_url }}">View</a>{% endfor %}</ul>{% else %}<a href="{{ request.get_forfill_url }}">Unforfilled. Forfill Now!</a>{% endif %}</dd>
 		</dl>
 	</div>
 </div>

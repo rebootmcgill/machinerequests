@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %} - Request #{{ request.id }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+	<h1>{{ request }}<small> Request #{{ request.id }}</small></h1>
+</div>
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<dl>
+			<dt>Request</dt>
+			<dd><a href="{{ machine.request.get_absolute_url }}">{{ machine.request }}</a></dd>
+			<dt>Filled by</dt>
+			<dd><a href="{{ machine.forfiller.get_absolute_url }}">{{ machine.forfiller.get_full_name }}</a></dd>
+			<dt>CPU</dt>
+			<dd>{{ machine.cpu }}</dd>
+			<dt>RAM</dt>
+			<dd>{{ machine.ram_human }}</dd>
+			<dt>HDD</dt>
+			<dd>{{ machine.ram_human }}</dd>
+			<dt>Notes</dt>
+			<dd>{{ machine.notes }}</dd>
+			<dt>Picked up</dt>
+			<dd><span class="glyphicon {% if request.machine_use %}glyphicon-ok{% else %}glyphicon-remove{% endif %}"></span></dd>
+		</dl>
+	</div>
+</div>
+{% endblock %}
+

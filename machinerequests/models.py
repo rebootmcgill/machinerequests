@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 class CPU(models.Model):
     name = models.CharField(max_length=64)
     cores = models.PositiveSmallIntegerField()
-    x64 = models.BooleanField()
+    x64 = models.BooleanField(default=True)
     clock = models.DecimalField(max_digits=4, decimal_places=2)
     def __str__(self):
         return self.name + ' - ' + str(self.clock) + 'GHz'
@@ -61,10 +61,10 @@ class Request(models.Model):
     preset = models.ForeignKey(Preset)
     os = models.ForeignKey(OperatingSystem, blank=True, null=True)
     machine_use = models.TextField()
-    need_display = models.BooleanField()
-    need_mouse = models.BooleanField()
-    need_keyboard = models.BooleanField()
-    need_ethernet = models.BooleanField()
+    need_display = models.BooleanField(default=False)
+    need_mouse = models.BooleanField(default=False)
+    need_keyboard = models.BooleanField(default=False)
+    need_ethernet = models.BooleanField(default=False)
     extra_information = models.TextField(blank=True)
     amount = models.PositiveIntegerField()
     filled = models.BooleanField(default=False)
@@ -73,7 +73,7 @@ class Request(models.Model):
         return self.machine_set.all()
 
     def __str__(self):
-        return self.preset + ' for ' + self.given_name + ' ' + self.family_name
+        return str(self.preset) + ' for ' + str(self.given_name) + ' ' + str(self.family_name)
 
     def get_absolute_url(self):
         return reverse('Request-Details', args=[str(self.id)])
