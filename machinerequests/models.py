@@ -101,7 +101,7 @@ class Machine(models.Model):
     picked_up = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.request + ' Forfilled by ' + self.forfiller
+        return str(self.request) + ' Forfilled by ' + str(self.forfiller)
 
     def get_absolute_url(self):
         return reverse('Machine-Details', args=[str(self.id)])

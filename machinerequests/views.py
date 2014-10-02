@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
 from machinerequests.models import Request, Machine
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 
@@ -28,15 +29,21 @@ class RequestView(DetailView):
     context_object_name = 'request'
     template_name = 'machine_requests/request_view.html'
 
-@login_required
+
 class MachineCreate(CreateView):
     model = Machine
     fields = ['cpu', 'ram', 'hdd', 'notes']
     template_name = 'machine_requests/machine_create.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(MachineCreate, self).dispatch(*args, **kwargs)
+
     def form_valid(self, form):
-        form.instance.request = self.kwargs['machinerequest']
+        form.instance.request_id = self.kwargs['machinerequest']
         form.instance.fulfiller = self.request.user
         return super(MachineCreate, self).form_valid(form)
+
 
 class MachineView(DetailView):
     model = Machine
