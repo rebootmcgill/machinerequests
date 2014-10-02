@@ -34,8 +34,8 @@ class RequestAdmin(admin.ModelAdmin):
 admin.site.register(Request, RequestAdmin)
 
 class MachineAdmin(admin.ModelAdmin):
-    fields = ('request', 'forfiller', 'cpu', 'ram', 'hdd', 'notes', 'picked_up')
-    list_display = ('request', 'forfiller', 'picked_up')
+    fields = ('request', 'fulfiller', 'cpu', 'ram', 'hdd', 'notes', 'picked_up')
+    list_display = ('request', 'fulfiller', 'picked_up')
     list_filter = ('picked_up',)
     search_fields = ('request__family_name', 'request__given_name', 'forfiller')
 
