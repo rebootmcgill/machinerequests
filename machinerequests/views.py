@@ -34,7 +34,8 @@ class MachineCreate(CreateView):
     fields = ['cpu', 'ram', 'hdd', 'notes']
     template_name = 'machine_requests/machine_create.html'
     def form_valid(self, form):
-        form.instance.forfiller = self.request.user
+        form.instance.request = self.kwargs['machinerequest']
+        form.instance.fulfiller = self.request.user
         return super(MachineCreate, self).form_valid(form)
 
 class MachineView(DetailView):

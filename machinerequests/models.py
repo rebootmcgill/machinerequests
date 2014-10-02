@@ -80,7 +80,7 @@ class Request(models.Model):
 
 class Machine(models.Model):
     request = models.ForeignKey(Request)
-    forfiller = models.ForeignKey(User)
+    fulfiller = models.ForeignKey(User)
     cpu = models.ForeignKey(CPU)
     ram = models.PositiveIntegerField()
     hdd = models.PositiveIntegerField()
