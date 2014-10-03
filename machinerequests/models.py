@@ -72,6 +72,9 @@ class Request(models.Model):
     def get_machines(self):
         return self.machine_set.all()
 
+    def get_fulfill_url(self):
+        return self.get_absolute_url() + 'fulfill/'
+
     def __str__(self):
         return str(self.preset) + ' for ' + str(self.given_name) + ' ' + str(self.family_name)
 
@@ -101,7 +104,7 @@ class Machine(models.Model):
     picked_up = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.request) + ' Forfilled by ' + str(self.forfiller)
+        return str(self.request) + ' Forfilled by ' + str(self.fulfiller)
 
     def get_absolute_url(self):
         return reverse('Machine-Details', args=[str(self.id)])

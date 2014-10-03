@@ -26,7 +26,7 @@ class ArchivedRequestsList(ListView):
 
 class RequestView(DetailView):
     model = Request
-    context_object_name = 'request'
+    context_object_name = 'machinerequest'
     template_name = 'machine_requests/request_view.html'
 
 
@@ -44,6 +44,10 @@ class MachineCreate(CreateView):
         form.instance.fulfiller = self.request.user
         return super(MachineCreate, self).form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super(MachineCreate, self).get_context_data(**kwargs)
+        context['machinerequest'] = Request.objects.get(pk=self.kwargs['machinerequest'])
+        return context
 
 class MachineView(DetailView):
     model = Machine
