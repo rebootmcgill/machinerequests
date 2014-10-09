@@ -12,7 +12,7 @@ class UnfilledRequestsList(ListView):
     template_name = 'machine_requests/requests.html'
     def get_context_data(self, **kwargs):
         context = super(UnfilledRequestsList, self).get_context_data(**kwargs)
-        context['page_title'] = "Unforfilled Requests"
+        context['page_title'] = "Unfulfilled Requests"
         return context
 
 class ArchivedRequestsList(ListView):
