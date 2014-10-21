@@ -7,10 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
 from io import BytesIO
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from xhtml2pdf import pisa
 
 # Create your views here.
 
@@ -54,7 +51,7 @@ class MachineCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(MachineCreate, self).get_context_data(**kwargs)
-        context['machinerequest'] = Request.objects.get(pk=self.kwargs['machinerequest'])
+        context['machinerequest'] = Request.objects.get(pk=self.kwarg s['machinerequest'])
         return context
 
 class MachineView(DetailView):
@@ -65,8 +62,7 @@ class MachineView(DetailView):
 
 def generate_receipt(request, pk):
     machine = get_object_or_404(Machine, pk=pk)
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="somefilename.pdf"'
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=62, leftMargin=62, topMargin=64)
-    template = get_template('machine_requests/receipt_pdf.rml'
+    template = get_template('machine_requests/receipt_pdf.html')
+
