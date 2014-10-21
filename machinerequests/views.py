@@ -4,6 +4,7 @@ from machinerequests.models import Request, Machine
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 
 from io import BytesIO
 from reportlab.pdfgen import canvas
