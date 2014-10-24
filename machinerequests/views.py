@@ -1,4 +1,5 @@
 import os
+from datetime import date
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from django.views.generic import ListView, DetailView, CreateView
@@ -100,19 +101,16 @@ def generate_receipt(request, pk):
     #p.drawImage(finders.find("img/logo.png"), 50, 50)
     p.setLineWidth(.3)
     p.setFont('Helvetica', 12)
-
-    p.drawString(30,750,'OFFICIAL COMMUNIQUE')
-    p.drawString(30,735,'OF ACME INDUSTRIES')
-    p.drawString(500,750,"12/12/2010")
-    p.line(480,747,580,747)
-
-    p.drawString(275,725,'AMOUNT OWED:')
-    p.drawString(500,725,"$1,000.00")
-    p.line(378,723,580,723)
-
-    p.drawString(30,703,'RECEIVED BY:')
-    p.line(120,700,580,700)
-    p.drawString(120,703,"JOHN DOE")
+    p.drawString(30, 750, 'OFFICIAL COMMUNIQUE')
+    p.drawString(30, 735, 'OF REBOOT')
+    p.drawString(500, 750, date.today())
+    p.line(480, 747, 580, 747)
+    p.drawString(275, 725, 'Order #:')
+    p.drawString(500, 725, str(machine.id))
+    p.line(378, 723, 580, 723)
+    p.drawString(30, 703, 'ORDERED BY:')
+    p.line(120, 700, 580, 700)
+    p.drawString(120, 703, machine.request.full_name())
     p.showPage()
     p.save()
     pdf = response_buffer.getvalue()

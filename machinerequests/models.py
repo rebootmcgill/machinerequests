@@ -36,7 +36,7 @@ class Preset(models.Model):
             return str(self.hdd) + 'GB'
 
     def __str__(self):
-       return str(self.cpu) + ' - RAM: ' + self.ram_human() + ' - HDD: ' + self.hdd_human()
+        return str(self.cpu) + ' - RAM: ' + self.ram_human() + ' - HDD: ' + self.hdd_human()
 
 
 class Request(models.Model):
@@ -68,6 +68,9 @@ class Request(models.Model):
     extra_information = models.TextField(blank=True)
     amount = models.PositiveIntegerField()
     filled = models.BooleanField(default=False)
+
+    def full_name(self):
+        return str(self.given_name) + ' ' + str(self.family_name)
 
     def get_machines(self):
         return self.machine_set.all()
