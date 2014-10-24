@@ -1,16 +1,18 @@
 import os
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 from django.views.generic import ListView, DetailView, CreateView
 from machinerequests.models import Request, Machine
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
-from django.template.loader import get_template
+from django.contrib.staticfiles import finders
 from django.shortcuts import get_object_or_404
 from django.conf import settings
-from django.template import Context
+
 
 from io import BytesIO
-from xhtml2pdf import pisa
+
 
 # Create your views here.
 
@@ -93,8 +95,7 @@ def link_callback(uri, rel):
 def generate_receipt(request, pk):
     machine = get_object_or_404(Machine, pk=pk)
     response_buffer = BytesIO()
-    template = get_template('machine_requests/receipt_pdf.html')
-    html = template.render(Context({'machine': machine}))
-    pisa.CreatePDF(html, dest=response_buffer, link_callback=link_callback)
+    p = canvas.Canvas(response_buffer, pagesize=letter)
+    p.drawImage(finders.find("img/logo.png"), 50, 50)
     pdf = response_buffer.getvalue()
     return HttpResponse(pdf, mimetype='application/pdf')
