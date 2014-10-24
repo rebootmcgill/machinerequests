@@ -97,7 +97,22 @@ def generate_receipt(request, pk):
     machine = get_object_or_404(Machine, pk=pk)
     response_buffer = BytesIO()
     p = canvas.Canvas(response_buffer, pagesize=letter)
-    p.drawImage(finders.find("img/logo.png"), 50, 50)
+    #p.drawImage(finders.find("img/logo.png"), 50, 50)
+    p.setLineWidth(.3)
+    p.setFont('Helvetica', 12)
+
+    p.drawString('OFFICIAL COMMUNIQUE', 30, 750)
+    p.drawString('OF ACME INDUSTRIES', 30, 735)
+    p.drawString("12/12/2010", 500, 750)
+    #p.line(480,747,580,747)
+
+    p.drawString("AMOUNT OWED:", 275, 725)
+    p.drawString("$1,000.00", 500, 725)
+    #p.line(378,723,580,723)
+
+    p.drawString('RECEIVED BY:', 120, 703)
+    #p.line(120,700,580,700)
+    p.drawString("JOHN DOE", 120, 703)
     p.showPage()
     p.save()
     pdf = response_buffer.getvalue()
