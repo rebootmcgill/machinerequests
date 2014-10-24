@@ -98,6 +98,8 @@ def generate_receipt(request, pk):
     response_buffer = BytesIO()
     p = canvas.Canvas(response_buffer, pagesize=letter)
     p.drawImage(finders.find("img/logo.png"), 50, 50)
+    p.showPage()
+    p.save()
     pdf = response_buffer.getvalue()
     response_buffer.close()
     response.write(pdf)
