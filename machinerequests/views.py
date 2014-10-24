@@ -1,33 +1,41 @@
-from django.shortcuts import render
+import os
 from django.views.generic import ListView, DetailView, CreateView
 from machinerequests.models import Request, Machine
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
+from django.template.loader import get_template
 from django.shortcuts import get_object_or_404
+from django.conf import settings
+from django.template import Context
 
 from io import BytesIO
 from xhtml2pdf import pisa
 
 # Create your views here.
 
+
 class UnfilledRequestsList(ListView):
     context_object_name = 'request_list'
     queryset = Request.objects.filter(filled=False)
     template_name = 'machine_requests/requests.html'
+
     def get_context_data(self, **kwargs):
         context = super(UnfilledRequestsList, self).get_context_data(**kwargs)
         context['page_title'] = "Unfulfilled Requests"
         return context
 
+
 class ArchivedRequestsList(ListView):
     context_object_name = 'request_list'
     queryset = Request.objects.filter(filled=True)
     template_name = 'machine_requests/requests.html'
+
     def get_context_data(self, **kwargs):
         context = super(ArchivedRequestsList, self).get_context_data(**kwargs)
         context['page_title'] = "Request Archives"
         return context
+
 
 class RequestView(DetailView):
     model = Request
@@ -51,8 +59,9 @@ class MachineCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(MachineCreate, self).get_context_data(**kwargs)
-        context['machinerequest'] = Request.objects.get(pk=self.kwarg s['machinerequest'])
+        context['machinerequest'] = Request.objects.get(pk=self.kwargs['machinerequest'])
         return context
+
 
 class MachineView(DetailView):
     model = Machine
@@ -60,9 +69,32 @@ class MachineView(DetailView):
     template_name = 'machine_requests/machine_view.html'
 
 
+def link_callback(uri, rel):
+    # use short variable names
+    sUrl = settings.STATIC_URL      # Typically /static/
+    sRoot = settings.STATIC_ROOT    # Typically /home/userX/project_static/
+    mUrl = settings.MEDIA_URL       # Typically /static/media/
+    mRoot = settings.MEDIA_ROOT     # Typically /home/userX/project_static/media/
+
+    # convert URIs to absolute system paths
+    if uri.startswith(mUrl):
+        path = os.path.join(mRoot, uri.replace(mUrl, ""))
+    elif uri.startswith(sUrl):
+        path = os.path.join(sRoot, uri.replace(sUrl, ""))
+
+    # make sure that file exists
+    if not os.path.isfile(path):
+            raise Exception(
+                    'media URI must start with %s or %s' %
+                    (sUrl, mUrl))
+    return path
+
+
 def generate_receipt(request, pk):
     machine = get_object_or_404(Machine, pk=pk)
-    buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=62, leftMargin=62, topMargin=64)
+    response_buffer = BytesIO()
     template = get_template('machine_requests/receipt_pdf.html')
-
+    html = template.render(Context({'machine': machine}))
+    pisa.CreatePDF(html, dest=response_buffer, link_callback=link_callback)
+    pdf = response_buffer.getvalue()
+    return HttpResponse(pdf, mimetype='application/pdf')
