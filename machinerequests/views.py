@@ -93,9 +93,12 @@ def link_callback(uri, rel):
 
 
 def generate_receipt(request, pk):
+    response = HttpResponse(content_type='application/pdf')
     machine = get_object_or_404(Machine, pk=pk)
     response_buffer = BytesIO()
     p = canvas.Canvas(response_buffer, pagesize=letter)
     p.drawImage(finders.find("img/logo.png"), 50, 50)
     pdf = response_buffer.getvalue()
-    return HttpResponse(pdf, mimetype='application/pdf')
+    response_buffer.close()
+    response.write(pdf)
+    return response
