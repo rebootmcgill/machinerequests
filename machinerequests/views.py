@@ -117,7 +117,7 @@ def generate_receipt(request, pk):
     p.drawString(385, 703, str(machine.request.faculty_and_dept))
     p.drawString(30, 675, 'FULFILLED BY:')
     p.line(120, 672, 320, 672)
-    p.drawString(120, 703, str(machine.fulfiller.full_name()))
+    p.drawString(120, 703, str(machine.fulfiller.get_full_name()))
     p.drawString(30, 650, 'PERIPHERALS:')
     p.rect(50, 645, 550, 25)
     p.drawString(100, 650, 'DISPLAY:')
