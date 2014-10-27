@@ -65,7 +65,7 @@ class Request(models.Model):
     faculty_and_dept = models.CharField(max_length=256)
     organization = models.CharField(max_length=32)
     preset = models.ForeignKey(Preset)
-    os = models.ForeignKey(OperatingSystem, blank=True, null=True)
+    os = models.ForeignKey(OperatingSystem, blank=True, null=True, default=2)
     machine_use = models.TextField()
     need_display = models.BooleanField(default=False)
     need_mouse = models.BooleanField(default=False)
