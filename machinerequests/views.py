@@ -154,7 +154,8 @@ def generate_receipt(request, pk):
     p.drawString(480, 550, str(machine.hdd_human()))
     p.drawString(30, 525, 'NOTES:')
     notes = p.beginText(30, 500)
-    notes.textLine(str(machine.notes))
+    for line in str(machine.notes).splitlines():
+        notes.textLine(line)
     p.drawText(notes)
     p.showPage()
     p.save()
