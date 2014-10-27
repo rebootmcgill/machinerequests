@@ -62,3 +62,4 @@ venv
 *.sqlite3
 reboot
 manage.py
+*.nja

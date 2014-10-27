@@ -21,7 +21,7 @@
 				<td>{{ request.family_name }}, {{ request.given_name }}</td>
 				<td>{{ request.requester_type }}</td>
 				<td>{{ request.faculty_and_dept }}</td>
-				<td>{{ request.preset }}</td>
+				<td><a href="{{request.get_absolute_url}}">{{ request.preset }}</a></td>
 				<td>{{ request.os }}</td>
 				<td>{{ request.amount }}</td>
 			</tr>

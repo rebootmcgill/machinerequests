@@ -4,34 +4,40 @@ from django.core.urlresolvers import reverse
 
 # Create your models here.
 
+
 class CPU(models.Model):
     name = models.CharField(max_length=64)
     cores = models.PositiveSmallIntegerField()
     x64 = models.BooleanField(default=True)
     clock = models.DecimalField(max_digits=4, decimal_places=2)
+
     def __str__(self):
         return self.name + ' - ' + str(self.clock) + 'GHz'
+
 
 class OperatingSystem(models.Model):
     name = models.CharField(max_length=64)
     version = models.CharField(max_length=32)
     experimental = models.BooleanField(default=False)
+
     def __str__(self):
         return str(self.name) + ' - ' + str(self.version)
+
 
 class Preset(models.Model):
     cpu = models.ForeignKey(CPU)
     ram = models.PositiveIntegerField()
     hdd = models.PositiveIntegerField()
+
     def ram_human(self):
         if(self.ram >= 1024):
-            return str(self.ram/1024.0) + 'GB'
+            return str(self.ram / 1024.0) + 'GB'
         else:
             return str(self.ram) + 'MB'
 
     def hdd_human(self):
         if(self.hdd >= 1024):
-            return str(self.hdd/1024.0) + 'TB'
+            return str(self.hdd / 1024.0) + 'TB'
         else:
             return str(self.hdd) + 'GB'
 
@@ -84,6 +90,7 @@ class Request(models.Model):
     def get_absolute_url(self):
         return reverse('Request-Details', args=[str(self.id)])
 
+
 class Machine(models.Model):
     request = models.ForeignKey(Request)
     fulfiller = models.ForeignKey(User)
@@ -93,13 +100,13 @@ class Machine(models.Model):
 
     def ram_human(self):
         if(self.ram >= 1024):
-            return str(self.ram/1024.0) + 'GB'
+            return str(self.ram / 1024.0) + 'GB'
         else:
             return str(self.ram) + 'MB'
 
     def hdd_human(self):
         if(self.hdd >= 1024):
-            return str(self.hdd/1024.0).join('TB')
+            return str(self.hdd / 1024.0).join('TB')
         else:
             return str(self.hdd).join('GB')
 
