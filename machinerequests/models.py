@@ -106,9 +106,9 @@ class Machine(models.Model):
 
     def hdd_human(self):
         if(self.hdd >= 1024):
-            return str(self.hdd / 1024.0).join('TB')
+            return str(self.hdd / 1024.0) + 'TB'
         else:
-            return str(self.hdd).join('GB')
+            return str(self.hdd) + 'GB'
 
     notes = models.TextField(blank=True)
     picked_up = models.BooleanField(default=False)
