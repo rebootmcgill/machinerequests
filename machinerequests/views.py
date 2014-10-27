@@ -152,9 +152,9 @@ def generate_receipt(request, pk):
     p.drawString(430, 550, 'HHD:')
     p.line(470, 547, 600, 547)
     p.drawString(480, 550, str(machine.hdd_human()))
-    p.drawString(80, 550, 'OS:')
+    p.drawString(80, 525, 'OS:')
     p.line(120, 523, 260, 523)
-    p.drawString(130, 550, str(machine.request.os))
+    p.drawString(130, 525, str(machine.request.os))
     p.drawString(30, 500, 'NOTES:')
     notes = p.beginText(30, 475)
     for line in str(machine.notes).splitlines():
