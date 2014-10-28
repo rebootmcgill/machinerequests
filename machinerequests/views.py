@@ -133,8 +133,8 @@ def generate_receipt(request, pk):
     p.drawString(60, 625, 'DISPLAY:')
     p.rect(120, 620, 20, 20)
     if(machine.request.need_display):
-        p.line(120, 620, 120, 640)
-        p.line(140, 620, 140, 640)
+        p.line(120, 620, 140, 640)
+        p.line(140, 620, 120, 640)
     p.drawString(160, 625, 'MOUSE:')
     p.rect(210, 620, 20, 20)
     if(machine.request.need_mouse):
