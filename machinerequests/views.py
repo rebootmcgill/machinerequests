@@ -1,5 +1,4 @@
 import os
-from datetime import date
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from django.views.generic import ListView, DetailView, CreateView
@@ -110,7 +109,7 @@ def generate_receipt(request, pk):
     p.setFont('Helvetica', 12)
     p.drawString(30, 750, 'OFFICIAL COMMUNIQUE')
     p.drawString(30, 735, 'OF REBOOT')
-    p.drawString(500, 750, str(date.today()))
+    p.drawString(500, 750, str(machine.request.filled_at.date()))
     p.line(480, 747, 580, 747)
     p.drawString(480, 725, 'ORDER #' + str(machine.id))
     p.line(465, 723, 555, 723)
