@@ -7,14 +7,30 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 #from django.contrib.staticfiles import finders
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render_to_response
+from django.template import RequestContext
 from django.conf import settings
+from django.utils import timezone
+from datetime import datetime
 
 
 from io import BytesIO
 
 
 # Create your views here.
+
+def reboot_home(request):
+    now = timezone.now()
+    month = datetime(now.year, now.month, 1, tzinfo=now.tzinfo)
+    unfilled_count = Request.objects.filter(filled=False).count()
+    pending_pickup_count = Machine.objects.filter(picked_up=False).count()
+    orders_count = 0
+    filled_count = Request.objects.filter(filled=True, filled_at__gte=month).count()
+    pickup_count = Machine.objects.filter(picked_up=True, pickedup_at__gte=month).count()
+    return render_to_response('machine_requests/home.html',
+        {'unfilled_count': unfilled_count, 'pending_pickup_count': pending_pickup_count, 'orders_count': orders_count,
+            'filled_count': filled_count, 'pickup_count': pickup_count},
+        context_instance=RequestContext(request))
 
 
 class UnfilledRequestsList(ListView):

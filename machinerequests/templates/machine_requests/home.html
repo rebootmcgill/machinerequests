@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+	<div class="col-md-3 col-md-offset-3">
+		<h3>Current Status</h3>
+		<dl>
+			<dt>Outstanding Orders</dt>
+			<dd>{{ unfilled_count }}</dd>
+			<dt>Machines Pending Pickup</dt>
+			<dd>{{ pending_pickup_count }}</dd>
+		</dl>
+	</div>
+	<div class="col-md-3">
+		<h3>This Months Stats</h3>
+		<dl>
+			<dt>Orders Recieved</dt>
+			<dd>{{ orders_count }}</dd>
+			<dt>Orders Fulfilled</dt>
+			<dd>{{ filled_count }}</dd>
+			<dt>Machines Picked Up</dt>
+			<dd>{{ pickup_count }}</dd>
+		</dl>
+	</div>
+</div>
