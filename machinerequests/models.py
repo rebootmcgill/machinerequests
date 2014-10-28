@@ -134,3 +134,9 @@ class Machine(models.Model):
 
     def get_absolute_url(self):
         return reverse('Machine-Details', args=[str(self.id)])
+
+    def get_pickup_url(self):
+        return self.get_absolute_url() + 'pickup/'
+
+    def get_pdf_url(self):
+        return self.get_absolute_url() + 'pdf/'

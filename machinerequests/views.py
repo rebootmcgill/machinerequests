@@ -72,9 +72,15 @@ class MachineView(DetailView):
 
 
 def mark_request_fulfilled(request, pk):
-    request = get_object_or_404(Machine, pk=pk)
-    request.fulfill()
-    return redirect(request)
+    req = get_object_or_404(Request, pk=pk)
+    req.fulfill()
+    return redirect(req)
+
+
+def mark_machine_picked_up(request, pk):
+    machine = get_object_or_404(Machine, pk=pk)
+    machine.pickup()
+    return redirect(machine)
 
 
 def link_callback(uri, rel):
