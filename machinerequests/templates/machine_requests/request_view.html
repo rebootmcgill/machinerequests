@@ -48,7 +48,11 @@
 			<dt>Amount</dt>
 			<dd>{{ machinerequest.amount }}</dd>
 			<dt>Machine Provided</dt>
-			<dd>{% if machinerequest.forfilled %}<ul>{% for machine in machinerequest.get_machines %}<li><a href="{{ machine.get_absolute_url }}">View</a>{% endfor %}</ul>{% else %}<a href="{{ machinerequest.get_fulfill_url }}">Unforfilled. Forfill Now!</a>{% endif %}</dd>
+			<dd>{% if machinerequest.filled %}<ul>{% for machine in machinerequest.get_machines %}<li><a href="{{ machine.get_absolute_url }}">View</a>{% endfor %}</ul>{% else %}<a href="{{ machinerequest.get_fulfill_url }}">Unforfilled. Forfill Now!</a>{% endif %}</dd>
+			{% if not machinerequest.filled and machinerequest.get_machines.count == machinerequest.amount %}
+			<dd>Amount Fulfilled</dd>
+			<dt><a href="{{ machine.get_fulfill_mark_url }}">Mark Fulfilled</a></dt>
+			{% endif %}
 		</dl>
 	</div>
 </div>

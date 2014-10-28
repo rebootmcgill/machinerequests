@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from datetime import datetime
 
 # Create your models here.
 
@@ -74,6 +75,12 @@ class Request(models.Model):
     extra_information = models.TextField(blank=True)
     amount = models.PositiveIntegerField()
     filled = models.BooleanField(default=False)
+    filled_at = models.DateTimeField(null=True)
+
+    def fulfill(self):
+        self.filled = True
+        self.filled_at = datetime.now()
+        self.save()
 
     def full_name(self):
         return str(self.given_name) + ' ' + str(self.family_name)
@@ -83,6 +90,9 @@ class Request(models.Model):
 
     def get_fulfill_url(self):
         return self.get_absolute_url() + 'fulfill/'
+
+    def get_fulfill_mark_url(self):
+        return self.get_absolute_url() + 'mark/'
 
     def __str__(self):
         return str(self.preset) + ' for ' + str(self.given_name) + ' ' + str(self.family_name)
@@ -97,6 +107,12 @@ class Machine(models.Model):
     cpu = models.ForeignKey(CPU)
     ram = models.PositiveIntegerField()
     hdd = models.PositiveIntegerField()
+    pickedup_at = models.DateTimeField(null=True)
+
+    def pickup(self):
+        self.picked_up = True
+        self.pickedup_at = datetime.now()
+        self.save()
 
     def ram_human(self):
         if(self.ram >= 1024):

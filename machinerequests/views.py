@@ -7,8 +7,8 @@ from machinerequests.models import Request, Machine
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
-from django.contrib.staticfiles import finders
-from django.shortcuts import get_object_or_404
+#from django.contrib.staticfiles import finders
+from django.shortcuts import get_object_or_404, redirect
 from django.conf import settings
 
 
@@ -70,6 +70,12 @@ class MachineView(DetailView):
     model = Machine
     context_object_name = 'machine'
     template_name = 'machine_requests/machine_view.html'
+
+
+def mark_request_fulfilled(request, pk):
+    request = get_object_or_404(Machine, pk=pk)
+    request.fulfill()
+    return redirect(request)
 
 
 def link_callback(uri, rel):
