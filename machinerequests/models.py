@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from datetime import datetime
+from django.utils import timezone
 
 # Create your models here.
 
@@ -79,7 +79,7 @@ class Request(models.Model):
 
     def fulfill(self):
         self.filled = True
-        self.filled_at = datetime.now()
+        self.filled_at = timezone.now()
         self.save()
 
     def full_name(self):
@@ -111,7 +111,7 @@ class Machine(models.Model):
 
     def pickup(self):
         self.picked_up = True
-        self.pickedup_at = datetime.now()
+        self.pickedup_at = timezone.now()
         self.save()
 
     def ram_human(self):
