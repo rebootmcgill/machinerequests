@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from machinerequests.models import Request, Machine
 
+
 class RequestForm(ModelForm):
     class Meta:
         model = Request
