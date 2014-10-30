@@ -76,6 +76,7 @@ class Request(models.Model):
     amount = models.PositiveIntegerField()
     filled = models.BooleanField(default=False)
     filled_at = models.DateTimeField(null=True)
+    requested_at = models.DateTimeField(null=True, auto_now_add=True)
 
     def fulfill(self):
         self.filled = True
