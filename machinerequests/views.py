@@ -35,7 +35,7 @@ def reboot_home(request):
 
 class UnfilledRequestsList(ListView):
     context_object_name = 'request_list'
-    queryset = Request.objects.filter(filled=False)
+    queryset = Request.objects.filter(filled=False).order_by('requested_at')
     template_name = 'machine_requests/requests.html'
 
     def get_context_data(self, **kwargs):
@@ -46,7 +46,7 @@ class UnfilledRequestsList(ListView):
 
 class ArchivedRequestsList(ListView):
     context_object_name = 'request_list'
-    queryset = Request.objects.filter(filled=True)
+    queryset = Request.objects.filter(filled=True).order_by('-filled_at')
     template_name = 'machine_requests/requests.html'
 
     def get_context_data(self, **kwargs):
