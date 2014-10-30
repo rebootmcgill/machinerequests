@@ -22,7 +22,10 @@ class OperatingSystem(models.Model):
     experimental = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.name) + ' - ' + str(self.version)
+        exp = ''
+        if self.experimental:
+            exp = '[Experimental]'
+        return exp + str(self.name) + ' - ' + str(self.version)
 
 
 class Preset(models.Model):
