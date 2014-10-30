@@ -24,7 +24,7 @@ def reboot_home(request):
     month = datetime(now.year, now.month, 1, tzinfo=now.tzinfo)
     unfilled_count = Request.objects.filter(filled=False).count()
     pending_pickup_count = Machine.objects.filter(picked_up=False).count()
-    orders_count = 0
+    orders_count = Request.objects.filter(requested_at__gte=month).count()
     filled_count = Request.objects.filter(filled=True, filled_at__gte=month).count()
     pickup_count = Machine.objects.filter(picked_up=True, pickedup_at__gte=month).count()
     return render_to_response('machine_requests/home.html',
