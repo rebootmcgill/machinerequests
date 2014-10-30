@@ -133,7 +133,7 @@ def generate_receipt(request, pk):
     p.drawString(30, 735, 'OF REBOOT')
     p.drawString(500, 750, str(machine.request.filled_at.date()))
     p.line(480, 747, 580, 747)
-    p.drawString(480, 725, 'ORDER #' + str(machine.id))
+    p.drawString(480, 725, 'ORDER #' + str(machine.request.id) + '-' + str(machine.id))
     p.line(465, 723, 555, 723)
     p.drawString(30, 703, 'ORDERED BY:')
     p.line(120, 700, 220, 700)
