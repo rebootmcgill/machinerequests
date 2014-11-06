@@ -20,6 +20,7 @@ from io import BytesIO
 # Create your views here.
 
 def reboot_home(request):
+    ops_phone = settings.OPS_PHONE
     now = timezone.now()
     month = datetime(now.year, now.month, 1, tzinfo=now.tzinfo)
     unfilled_count = Request.objects.filter(filled=False).count()
@@ -33,7 +34,8 @@ def reboot_home(request):
     return render_to_response('machine_requests/home.html',
         {'unfilled_count': unfilled_count, 'pending_pickup_count': pending_pickup_count, 'orders_count': orders_count,
             'filled_count': filled_count, 'pickup_count': pickup_count, 'orders_count_ever': orders_count_ever,
-            'filled_count_ever': filled_count_ever, 'pickup_count_ever': pickup_count_ever},
+            'filled_count_ever': filled_count_ever, 'pickup_count_ever': pickup_count_ever,
+            'ops_phone': ops_phone},
         context_instance=RequestContext(request))
 
 
