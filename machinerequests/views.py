@@ -27,9 +27,13 @@ def reboot_home(request):
     orders_count = Request.objects.filter(requested_at__gte=month).count()
     filled_count = Request.objects.filter(filled=True, filled_at__gte=month).count()
     pickup_count = Machine.objects.filter(picked_up=True, pickedup_at__gte=month).count()
+    orders_count_ever = Request.objects.count()
+    filled_count_ever = Request.objects.filter(filled=True).count()
+    pickup_count_ever = Machine.objects.filter(picked_up=True).count()
     return render_to_response('machine_requests/home.html',
         {'unfilled_count': unfilled_count, 'pending_pickup_count': pending_pickup_count, 'orders_count': orders_count,
-            'filled_count': filled_count, 'pickup_count': pickup_count},
+            'filled_count': filled_count, 'pickup_count': pickup_count, 'orders_count_ever': orders_count_ever,
+            'filled_count_ever': filled_count_ever, 'pickup_count_ever': pickup_count_ever},
         context_instance=RequestContext(request))
 
 
