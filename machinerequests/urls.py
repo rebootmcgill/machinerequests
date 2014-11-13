@@ -9,5 +9,5 @@ urlpatterns = patterns('machinerequests.views',
     url(r'^machine/(?P<pk>\d+)/$', MachineView.as_view(), name="Machine-Details"),
     url(r'^machine/(?P<pk>\d+)/pdf/$', 'generate_receipt', name="Machine-Receipt"),
     url(r'^request/(?P<pk>\d+)/mark/$', 'mark_request_fulfilled', name="Request-Fulfill"),
-    url(r'^machine/(?P<pk>\d+)/pickup/$', 'mark_request_fulfilled', name="Request-Fulfill"),
+    url(r'^machine/(?P<pk>\d+)/pickup/$', 'mark_machine_picked_up', name="Machine-Pickup"),
 )
