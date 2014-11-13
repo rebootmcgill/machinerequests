@@ -21,7 +21,7 @@
 			<dt>Notes</dt>
 			<dd>{{ machine.notes }}</dd>
 			<dt>Picked up</dt>
-			<dd><span class="glyphicon {% if machine.picked_up %}glyphicn-ok" ></span>{% else %}glyphicon-remove "></span><a href="{{ machine.get_pickup_url }}">Mark Picked up</a>{% endif %}</dd>
+			<dd><span class="glyphicon {% if machine.picked_up %}glyphicon-ok" ></span>{% else %}glyphicon-remove "></span><a href="{{ machine.get_pickup_url }}">Mark Picked up</a>{% endif %}</dd>
 			<dd>Receipt</dd>
 			<dt><a href="{{ machine.get_pdf_url }}">Generate</a></dt>
 		</dl>
