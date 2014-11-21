@@ -29,9 +29,13 @@ admin.site.register(Preset, PresetAdmin)
 
 
 class RequestAdmin(admin.ModelAdmin):
-    readonly_fields = ('family_name', 'given_name', 'organization', 'preset', 'machine_use', 'extra_information', 'requested_at')
-    fields = ('email', 'requester_type', 'faculty_and_dept', 'amount', 'filled', 'family_name', 'given_name', 'organization', 'preset', 'os', 'machine_use', 'need_display', 'need_mouse', 'need_keyboard', 'need_ethernet', 'extra_information', 'requested_at')
-    list_display = ('family_name', 'given_name', 'preset', 'os', 'need_display', 'need_mouse', 'need_keyboard', 'need_ethernet', 'amount', 'filled', 'requested_at')
+    readonly_fields = ('family_name', 'given_name', 'organization', 'preset', 'machine_use', 'extra_information',
+        'requested_at', 'filled_at')
+    fields = ('email', 'requester_type', 'faculty_and_dept', 'amount', 'filled', 'family_name', 'given_name',
+        'organization', 'preset', 'os', 'machine_use', 'need_display', 'need_mouse', 'need_keyboard', 'need_ethernet',
+        'extra_information', 'requested_at', 'filled_at')
+    list_display = ('family_name', 'given_name', 'preset', 'os', 'need_display', 'need_mouse', 'need_keyboard',
+        'need_ethernet', 'amount', 'filled', 'requested_at')
     list_filter = ('preset', 'os', 'need_display', 'need_mouse', 'need_keyboard', 'need_ethernet', 'filled')
     search_fields = ('family_name', 'given_name', 'email', 'organization')
 
