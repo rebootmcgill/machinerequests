@@ -87,6 +87,8 @@ class Request(models.Model):
         self.filled = True
         self.filled_at = timezone.now()
         self.save()
+        for machine in self.machine_set.all():
+            machine.notify()
 
     def full_name(self):
         return str(self.given_name) + ' ' + str(self.family_name)
