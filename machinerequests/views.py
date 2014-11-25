@@ -126,10 +126,7 @@ def link_callback(uri, rel):
     return path
 
 
-def generate_receipt(request, pk):
-    response = HttpResponse(content_type='application/pdf')
-    machine = get_object_or_404(Machine, pk=pk)
-    response['Content-Disposition'] = 'filename="machine-' + str(machine.id) + '.pdf"'
+def generate_reciept_pdf(machine):
     response_buffer = BytesIO()
     p = canvas.Canvas(response_buffer, pagesize=letter)
     #p.drawImage(finders.find("img/logo.png"), 50, 50)
@@ -195,6 +192,14 @@ def generate_receipt(request, pk):
     p.drawText(notes)
     p.showPage()
     p.save()
+    return response_buffer
+
+
+def generate_receipt(request, pk):
+    response = HttpResponse(content_type='application/pdf')
+    machine = get_object_or_404(Machine, pk=pk)
+    response['Content-Disposition'] = 'filename="machine-' + str(machine.id) + '.pdf"'
+    response_buffer = generate_reciept_pdf(machine)
     pdf = response_buffer.getvalue()
     response_buffer.close()
     response.write(pdf)
