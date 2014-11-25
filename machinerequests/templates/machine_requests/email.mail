@@ -1,0 +1,13 @@
+Hi {{ machine.request.given_name }},
+Your machine is ready to be picked up. Drop by the office anytime during office hours to receive it.
+Attached are the specifications of your request, and the supplied machine.
+--
+Reboot office hours:
+
+Monday 11:30 - 1:30
+Tuesday 3:30 - 5:00
+Wednesday 1:30 - 3:30
+Thursday 10:00 - 12:30
+Friday 12:30 - 2:30
+
+Location: Room 218, Ferrier Building, McGill Downtown Campus

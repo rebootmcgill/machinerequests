@@ -2,7 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils import timezone
-
+from django.core.mail import EmailMessage
+from machinerequests.views import generate_reciept_pdf
+from django.template.loader import render_to_string
 # Create your models here.
 
 
@@ -144,3 +146,11 @@ class Machine(models.Model):
 
     def get_pdf_url(self):
         return self.get_absolute_url() + 'pdf/'
+
+    def notify(self):
+        body = render_to_string('machine_requests/email.mail', {'machine': self})
+        reciept = generate_reciept_pdf(self)
+        email = EmailMessage("Your Machine is Ready", body, 'reboot@mcgilleus.ca', [self.request.email],
+            ['reboot@mcgilleus.ca'], headers={'Reply-To': 'reboot@mcgilleus.ca'})
+        email.attach('Machine-reciept.pdf', reciept)
+        email.send()
