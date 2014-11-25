@@ -70,4 +70,6 @@ def generate_reciept_pdf(machine):
     p.drawText(notes)
     p.showPage()
     p.save()
-    return response_buffer
+    pdf = response_buffer.getvalue()
+    response_buffer.close()
+    return pdf

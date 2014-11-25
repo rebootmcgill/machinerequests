@@ -127,8 +127,6 @@ def generate_receipt(request, pk):
     response = HttpResponse(content_type='application/pdf')
     machine = get_object_or_404(Machine, pk=pk)
     response['Content-Disposition'] = 'filename="machine-' + str(machine.id) + '.pdf"'
-    response_buffer = generate_reciept_pdf(machine)
-    pdf = response_buffer.getvalue()
-    response_buffer.close()
+    pdf = generate_reciept_pdf(machine)
     response.write(pdf)
     return response
