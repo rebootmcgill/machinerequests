@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.core.mail import EmailMessage
-from machinerequests.views import generate_reciept_pdf
+from machinerequests.functions import generate_reciept_pdf
 from django.template.loader import render_to_string
 # Create your models here.
 
