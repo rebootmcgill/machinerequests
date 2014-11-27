@@ -1,0 +1,35 @@
+Hi {{ request.given_name }},
+Your request has been acknowedged and entered into the system. Once your machine is ready, you shall recieve another email notifing you to come and pick it up.
+Below is a breakdown of your request. Do not hesitate to email us if you have any questions.
+
+Requested By: {{ request.full_name }}
+Requester Classification: {{ request.requester_type }}
+Faculty: {{ request.faculty_and_dept }}
+Organisation: {{ request.organization }}
+Requested Preset: {{ request.preset }}
+Operating System: {{ request.os }}
+Display: {{ request.need_display }}
+Mouse: {{ request.need_mouse }}
+Keyboard: {{ request.need_keyboard }}
+Network Cable: {{ request.need_ethernet }}
+Amount Requested:{{ request.amount }}
+
+Machine Use:
+{{ request.machine_use }}
+
+Extra Info and Remarks:
+{{ request.extra_information }}
+
+
+
+
+--
+Reboot office hours:
+
+Monday 11:30 - 1:30
+Tuesday 3:30 - 5:00
+Wednesday 1:30 - 3:30
+Thursday 10:00 - 12:30
+Friday 12:30 - 2:30
+
+Location: Room 218, Ferrier Building, McGill Downtown Campus

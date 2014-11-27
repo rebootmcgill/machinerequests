@@ -108,6 +108,12 @@ class Request(models.Model):
     def get_absolute_url(self):
         return reverse('Request-Details', args=[str(self.id)])
 
+    def acknowedge(self):
+        body = render_to_string('machine_requests/ack.mail', {'request': self})
+        email = EmailMessage("Your Request has been recieved", body, 'reboot@mcgilleus.ca', [self.email],
+            ['reboot@mcgilleus.ca'], headers={'Reply-To': 'reboot@mcgilleus.ca'})
+        email.send()
+
 
 class Machine(models.Model):
     request = models.ForeignKey(Request)
