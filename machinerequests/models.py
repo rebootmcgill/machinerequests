@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.core.mail import EmailMessage
 from machinerequests.functions import generate_reciept_pdf
 from django.template.loader import render_to_string
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # Create your models here.
 
 
@@ -113,6 +115,12 @@ class Request(models.Model):
         email = EmailMessage("Your Request has been recieved", body, 'reboot@mcgilleus.ca', [self.email],
             ['reboot@mcgilleus.ca'], headers={'Reply-To': 'reboot@mcgilleus.ca'})
         email.send()
+
+
+@receiver(post_save, sender=Request)
+def creation_acknowedge_hook(sender, **kwargs):
+    if kwargs["created"]:
+        kwargs["instance"].acknowedge()
 
 
 class Machine(models.Model):
