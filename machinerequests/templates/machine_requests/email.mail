@@ -5,7 +5,7 @@ Attached are the specifications of your request, and the supplied machine.
 Reboot office hours:
 
 {% for hour in office_hours %}
-{{ hour.get_day }} {{ hour.start_time|date:"g:i" }}	 - {{ hour.end_time|date:"g:i" }}<br>
+{{ hour.get_day }} {{ hour.start_time|date:"g:i" }} - {{ hour.end_time|date:"g:i" }}
 {% endfor %}
 
 Location: Room 218, Ferrier Building, McGill Downtown Campus

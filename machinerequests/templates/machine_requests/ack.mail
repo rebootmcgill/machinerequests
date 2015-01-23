@@ -20,14 +20,11 @@ Machine Use:
 Extra Info and Remarks:
 {{ request.extra_information }}
 
-
-
-
 --
 Reboot office hours:
 
 {% for hour in office_hours %}
-{{ hour.get_day }} {{ hour.start_time|date:"g:i" }}	 - {{ hour.end_time|date:"g:i" }}<br>
+{{ hour.get_day }} {{ hour.start_time|date:"g:i"}} - {{ hour.end_time|date:"g:i" }}
 {% endfor %}
 
 Location: Room 218, Ferrier Building, McGill Downtown Campus
