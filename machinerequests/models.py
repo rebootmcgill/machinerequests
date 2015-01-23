@@ -7,6 +7,7 @@ from machinerequests.functions import generate_reciept_pdf
 from django.template.loader import render_to_string
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from publicreboot.models import OfficeHours
 # Create your models here.
 
 
@@ -111,7 +112,8 @@ class Request(models.Model):
         return reverse('Request-Details', args=[str(self.id)])
 
     def acknowedge(self):
-        body = render_to_string('machine_requests/ack.mail', {'request': self})
+        body = render_to_string('machine_requests/ack.mail', {'request': self,
+            'office_hours': OfficeHours.objects.all()})
         email = EmailMessage("Your Request has been recieved", body, 'reboot@mcgilleus.ca', [self.email],
             ['reboot@mcgilleus.ca'], headers={'Reply-To': 'reboot@mcgilleus.ca'})
         email.send()

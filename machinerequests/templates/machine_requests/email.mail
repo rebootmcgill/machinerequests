@@ -4,10 +4,8 @@ Attached are the specifications of your request, and the supplied machine.
 --
 Reboot office hours:
 
-Monday 11:30 - 1:30
-Tuesday 3:30 - 5:00
-Wednesday 1:30 - 3:30
-Thursday 10:00 - 12:30
-Friday 12:30 - 2:30
+{% for hour in office_hours %}
+{{ hour.get_day }} {{ hour.start_time|date:"g:i" }}	 - {{ hour.end_time|date:"g:i" }}<br>
+{% endfor %}
 
 Location: Room 218, Ferrier Building, McGill Downtown Campus
