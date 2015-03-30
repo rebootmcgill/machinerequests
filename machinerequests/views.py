@@ -64,7 +64,7 @@ class PendingRequestsList(ListView):
     template_name = 'machine_requests/requests.html'
 
     def get_context_data(self, **kwargs):
-        context = super(ArchivedRequestsList, self).get_context_data(**kwargs)
+        context = super(PendingRequestsList, self).get_context_data(**kwargs)
         context['page_title'] = "Request Pending Pickup"
         return context
 
