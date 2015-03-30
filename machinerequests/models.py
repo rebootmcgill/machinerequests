@@ -105,6 +105,12 @@ class Request(models.Model):
     def get_fulfill_mark_url(self):
         return self.get_absolute_url() + 'mark/'
 
+    def picked_up(self):
+        for machine in self.machine_set.all():
+            if not machine.picked_up:
+                return False
+        return True
+
     def __str__(self):
         return str(self.preset) + ' for ' + str(self.given_name) + ' ' + str(self.family_name)
 

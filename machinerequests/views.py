@@ -58,6 +58,17 @@ class ArchivedRequestsList(ListView):
         return context
 
 
+class PendingRequestsList(ListView):
+    context_object_name = 'request_list'
+    queryset = Request.objects.filter(filled=True, machine__picked_up=False).order_by('-filled_at')
+    template_name = 'machine_requests/requests.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ArchivedRequestsList, self).get_context_data(**kwargs)
+        context['page_title'] = "Request Pending Pickup"
+        return context
+
+
 class RequestView(DetailView):
     model = Request
     context_object_name = 'machinerequest'
