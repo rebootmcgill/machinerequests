@@ -24,7 +24,11 @@ Extra Info and Remarks:
 Reboot office hours:
 
 {% for hour in office_hours %}
+{% if hour.closed %}
+{{ hour.get_day }} Closed
+{% else %}
 {{ hour.get_day }} {{ hour.start_time|date:"g:i"}} - {{ hour.end_time|date:"g:i" }}
+{% endif %}
 {% endfor %}
 
 Location: Room 218, Ferrier Building, McGill Downtown Campus
