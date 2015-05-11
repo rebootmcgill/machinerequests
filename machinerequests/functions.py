@@ -1,6 +1,9 @@
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from io import BytesIO
+from machinerequests.models import Request
+from django.utils import timezone
+from datetime import timedelta
 
 
 # -*- coding: utf-8 -*-
@@ -73,3 +76,24 @@ def generate_reciept_pdf(machine):
     pdf = response_buffer.getvalue()
     response_buffer.close()
     return pdf
+
+
+def get_pending_pickup_requests(filled_at=None):
+    if filled_at:
+        filled = Request.objects.filter(filled=True, filled_at__leq=filled_at)
+    else:
+        filled = Request.objects.filter(filled=True)
+    pending = []
+    for req in filled:
+        if not req.picked_up:
+            pending += [req]
+    return pending
+
+
+def get_old_orders(days=30):
+    cutoff = timezone.now() - timedelta(days=days)
+    return get_pending_pickup_requests(cutoff)
+
+
+def overdue_pickup_reqs():
+    return get_old_orders(60)

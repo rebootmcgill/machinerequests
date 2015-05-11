@@ -106,10 +106,18 @@ class Request(models.Model):
         return self.get_absolute_url() + 'mark/'
 
     def picked_up(self):
+        if not self.filled:
+            return False
         for machine in self.machine_set.all():
             if not machine.picked_up:
                 return False
         return True
+
+    def enough(self):
+        return (self.machine_set.count() == self.amount)
+
+    enough.short_description = 'Enough Machines'
+    enough.boolean = True
 
     def __str__(self):
         return str(self.preset) + ' for ' + str(self.given_name) + ' ' + str(self.family_name)
