@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from publicreboot.models import OfficeHours
+from datetime import timedelta
 # Create your models here.
 
 
@@ -186,3 +187,24 @@ class Machine(models.Model):
             ['reboot@mcgilleus.ca'], headers={'Reply-To': 'reboot@mcgilleus.ca'})
         email.attach('Machine-reciept.pdf', reciept)
         email.send()
+
+
+def get_pending_pickup_requests(filled_at=None):
+    if filled_at:
+        filled = Request.objects.filter(filled=True, filled_at__leq=filled_at)
+    else:
+        filled = Request.objects.filter(filled=True)
+    pending = []
+    for req in filled:
+        if not req.picked_up:
+            pending += [req]
+    return pending
+
+
+def get_old_orders(days=30):
+    cutoff = timezone.now() - timedelta(days=days)
+    return get_pending_pickup_requests(cutoff)
+
+
+def overdue_pickup_reqs():
+    return get_old_orders(60)
