@@ -73,4 +73,3 @@ def generate_reciept_pdf(machine):
     pdf = response_buffer.getvalue()
     response_buffer.close()
     return pdf
-

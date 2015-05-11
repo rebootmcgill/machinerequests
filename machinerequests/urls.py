@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url
-from machinerequests.views import UnfilledRequestsList, ArchivedRequestsList, RequestView, MachineView, MachineCreate, PendingRequestsList
+from machinerequests.views import UnfilledRequestsList, ArchivedRequestsList, RequestView, MachineView
+from machinerequests.views import MachineCreate, PendingRequestsList
 
 urlpatterns = patterns('machinerequests.views',
     url(r'^$', UnfilledRequestsList.as_view()),
