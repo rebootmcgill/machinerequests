@@ -196,7 +196,7 @@ def get_pending_pickup_requests(filled_at=None):
         filled = Request.objects.filter(filled=True)
     pending = []
     for req in filled:
-        if not req.picked_up:
+        if not req.picked_up():
             pending += [req]
     return pending
 
