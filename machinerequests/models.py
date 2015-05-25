@@ -191,7 +191,7 @@ class Machine(models.Model):
 
 def get_pending_pickup_requests(filled_at=None):
     if filled_at:
-        filled = Request.objects.filter(filled=True, filled_at__leq=filled_at)
+        filled = Request.objects.filter(filled=True, filled_at__lte=filled_at)
     else:
         filled = Request.objects.filter(filled=True)
     pending = []
