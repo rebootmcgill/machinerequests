@@ -86,6 +86,7 @@ class Request(models.Model):
     filled = models.BooleanField(default=False)
     filled_at = models.DateTimeField(null=True)
     requested_at = models.DateTimeField(auto_now_add=True)
+    failed_to_pickup = models.BooleanField(default=False)
 
     def fulfill(self):
         self.filled = True
@@ -191,9 +192,9 @@ class Machine(models.Model):
 
 def get_pending_pickup_requests(filled_at=None):
     if filled_at:
-        filled = Request.objects.filter(filled=True, filled_at__lte=filled_at)
+        filled = Request.objects.filter(filled=True, failed_to_pickup=False, filled_at__lte=filled_at)
     else:
-        filled = Request.objects.filter(filled=True)
+        filled = Request.objects.filter(filled=True, failed_to_pickup=False)
     pending = []
     for req in filled:
         if not req.picked_up():
