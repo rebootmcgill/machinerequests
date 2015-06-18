@@ -1,7 +1,7 @@
 import os
 
 from django.views.generic import ListView, DetailView, CreateView
-from machinerequests.models import Request, Machine
+from machinerequests.models import Request, Machine, get_pending_pickup_requests
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
@@ -60,12 +60,23 @@ class ArchivedRequestsList(ListView):
 
 class PendingRequestsList(ListView):
     context_object_name = 'request_list'
-    queryset = Request.objects.filter(filled=True, machine__picked_up=False).distinct().order_by('-filled_at')
+    queryset = get_pending_pickup_requests()
     template_name = 'machine_requests/requests.html'
 
     def get_context_data(self, **kwargs):
         context = super(PendingRequestsList, self).get_context_data(**kwargs)
         context['page_title'] = "Request Pending Pickup"
+        return context
+
+
+class FailedPickupList(ListView):
+    context_object_name = 'request_list'
+    queryset = Request.objects.filter(failed_to_pickup=True)
+    template_name = 'machine_requests/requests.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PendingRequestsList, self).get_context_data(**kwargs)
+        context['page_title'] = "Requests Never Picked-up"
         return context
 
 

@@ -192,14 +192,12 @@ class Machine(models.Model):
 
 def get_pending_pickup_requests(filled_at=None):
     if filled_at:
-        filled = Request.objects.filter(filled=True, failed_to_pickup=False, filled_at__lte=filled_at)
+        filled = Request.objects.filter(filled=True, failed_to_pickup=False, filled_at__lte=filled_at,
+            machine__picked_up=False).distinct().order_by('-filled_at')
     else:
-        filled = Request.objects.filter(filled=True, failed_to_pickup=False)
-    pending = []
-    for req in filled:
-        if not req.picked_up():
-            pending += [req]
-    return pending
+        filled = Request.objects.filter(filled=True, failed_to_pickup=False,
+            machine__picked_up=False).distinct().order_by('-filled_at')
+    return filled
 
 
 def get_old_orders(days=30):
