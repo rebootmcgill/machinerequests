@@ -75,7 +75,7 @@ class FailedPickupList(ListView):
     template_name = 'machine_requests/requests.html'
 
     def get_context_data(self, **kwargs):
-        context = super(PendingRequestsList, self).get_context_data(**kwargs)
+        context = super(FailedPickupList, self).get_context_data(**kwargs)
         context['page_title'] = "Requests Never Picked-up"
         return context
 
