@@ -1,7 +1,7 @@
 import os
 
 from django.views.generic import ListView, DetailView, CreateView
-from machinerequests.models import Request, Machine, get_pending_pickup_requests
+from machinerequests.models import Request, Machine, get_pending_pickup_requests, overdue_pickup_reqs
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
@@ -77,6 +77,17 @@ class FailedPickupList(ListView):
     def get_context_data(self, **kwargs):
         context = super(FailedPickupList, self).get_context_data(**kwargs)
         context['page_title'] = "Requests Never Picked-up"
+        return context
+
+
+class OverduePickupList(ListView):
+    context_object_name = 'request_list'
+    queryset = overdue_pickup_reqs()
+    template_name = 'machine_requests/requests.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(OverduePickupList, self).get_context_data(**kwargs)
+        context['page_title'] = "Overduer Pickups"
         return context
 
 
