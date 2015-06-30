@@ -154,6 +154,10 @@ class Machine(models.Model):
         self.pickedup_at = timezone.now()
         self.save()
 
+    def pending(self):
+        return not (self.picked_up or self.request.failed_to_pickup)
+    pending.boolean = True
+
     def ram_human(self):
         if(self.ram >= 1024):
             return str(self.ram / 1024.0) + 'GB'
