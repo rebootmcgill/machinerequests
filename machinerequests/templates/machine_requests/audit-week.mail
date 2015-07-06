@@ -1,0 +1,17 @@
+Reboot McGill Weekly Audit
+
+Current VP Operations Phone Number: {{ ops_phone }}
+
+Current Status:
+    Outstanding Orders: {{ unfilled_count }}
+    Pending Pickup: {{ pending_pickup_count }}
+
+So Far This Month:
+    Recieved: {{ orders_count }}
+    Fulfilled: {{ filled_count }}
+    Picked-up: {{ pickup_count }}
+
+Overdue Pickups:{% for request in overdue %}
+    {{ request.family_name }}, {{ request.given_name }}. Fulfilled {{ request.amount }} @ {{ request.filled_at }}{% endfor %}
+
+End Audit

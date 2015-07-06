@@ -27,6 +27,10 @@ class PresetAdmin(admin.ModelAdmin):
 
 admin.site.register(Preset, PresetAdmin)
 
+def revoke_action(modeladmin, request, queryset):
+    for obj in queryset:
+        obj.revoke()
+revoke_action.short_description = "Mark requests as never picked up"
 
 class RequestAdmin(admin.ModelAdmin):
     readonly_fields = ('family_name', 'given_name', 'organization', 'preset', 'machine_use', 'extra_information',
@@ -38,6 +42,8 @@ class RequestAdmin(admin.ModelAdmin):
         'need_ethernet', 'amount', 'filled', 'requested_at', 'failed_to_pickup')
     list_filter = ('preset', 'os', 'need_display', 'need_mouse', 'need_keyboard', 'need_ethernet', 'filled', 'failed_to_pickup')
     search_fields = ('family_name', 'given_name', 'email', 'organization')
+    actions = [revoke_action]
+
 
 admin.site.register(Request, RequestAdmin)
 

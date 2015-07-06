@@ -2,13 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils import timezone
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, mail_managers
 from machinerequests.functions import generate_reciept_pdf
 from django.template.loader import render_to_string
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from publicreboot.models import OfficeHours
-from datetime import timedelta
+from datetime import timedelta, datetime
+from django.conf import settings
 # Create your models here.
 
 
@@ -130,9 +131,18 @@ class Request(models.Model):
     def acknowedge(self):
         body = render_to_string('machine_requests/ack.mail', {'request': self,
             'office_hours': OfficeHours.objects.all()})
-        email = EmailMessage("Your Request has been recieved", body, 'reboot@mcgilleus.ca', [self.email],
+        email = EmailMessage("[Reboot]Your Request has been recieved", body, 'reboot@mcgilleus.ca', [self.email],
             ['reboot@mcgilleus.ca'], headers={'Reply-To': 'reboot@mcgilleus.ca'})
         email.send()
+
+    def revoke(self):
+        body = render_to_string('machine_requests/revoke.mail', {'request': self,
+            'office_hours': OfficeHours.objects.all()})
+        email = EmailMessage("[Reboot]Overdue pickup: machine reallocated", body, 'reboot@mcgilleus.ca', [self.email],
+            ['reboot@mcgilleus.ca'], headers={'Reply-To': 'reboot@mcgilleus.ca'})
+        email.send()
+        self.failed_to_pickup = True
+        self.save()
 
 
 @receiver(post_save, sender=Request)
@@ -211,3 +221,19 @@ def get_old_orders(days=30):
 
 def overdue_pickup_reqs():
     return get_old_orders(60)
+
+
+def audit():
+    ops_phone = settings.OPS_PHONE
+    now = timezone.now()
+    month = datetime(now.year, now.month, 1, tzinfo=now.tzinfo)
+    unfilled_count = Request.objects.filter(filled=False).count()
+    pending_pickup_count = Machine.objects.filter(picked_up=False, request__failed_to_pickup=False).count()
+    orders_count = Request.objects.filter(requested_at__gte=month).count()
+    filled_count = Request.objects.filter(filled=True, filled_at__gte=month).count()
+    pickup_count = Machine.objects.filter(picked_up=True, pickedup_at__gte=month).count()
+    overdue = overdue_pickup_reqs()
+    body = render_to_string('machine_requests/audit-week.mail', {'unfilled_count': unfilled_count,
+            'pending_pickup_count': pending_pickup_count, 'orders_count': orders_count, 'filled_count': filled_count,
+            'pickup_count': pickup_count, 'ops_phone': ops_phone, 'overdue': overdue})
+    mail_managers("Weekly Audit", body)

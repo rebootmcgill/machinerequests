@@ -1,0 +1,6 @@
+Hi {{ request.given_name }},
+Your machine(s), which was/were requested at {{ request.requested_at }} ({{ request.requested_at|timesince }} ago), and fulfilled at {{ request.filled_at }} ({{ request.filled_at|timesince }} ago) has been re-allocated, due it it being more than 60 days since your order was ready to pick up.
+For logistical reasons, a 6 month probationary wait time will be applied until you can apply for another machine.
+
+--Reboot McGill Management
+[This is an automated message.]
